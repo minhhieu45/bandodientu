@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const comment = require("../models/comment");
 const Product = require("../models/product");
-const urlConnect = `mongodb+srv://brogrammers2527:brogrammers2527@cluster0-mwti3.mongodb.net/test?retryWrites=true&w=majority
-`;
-
+const urlConnect = process.env.DB;
 //Connect to db
 mongoose.connect(
   urlConnect,

@@ -72,35 +72,27 @@ exports.postSignUp = (req, res, next) => {
 };
 
 exports.getVerifyEmail = async (req, res, next) => {
-  let testAccount = await nodemailer.createTestAccount();
-  var transporter = nodemailer.createTransport({
-    service: "Gmail",
+  let transporter = nodemailer.createTransport({
+    service:'gmail',
     auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
+      user: process.env.USERMAIL,
+      pass: process.env.PASSMAIL,
     },
   });
-  Users.findOne({ username: req.user.username }).then((user) => {
-    var verification_token = randomstring.generate({
+  Users.findOne({ username: req.user.username }).then( async(user) => {
+    var verification_token = await randomstring.generate({
       length: 10,
     });
-    console.log(verification_token);
-    var mainOptions = {
-      from: "Crepp so gud",
+    //send mail
+    let result = await transporter.sendMail({
+      from: "vominhhieu.dev@gmail.com",
       to: req.user.email,
-      subject: "Test",
-      text: "text ne",
+      subject: "Xác nhận tài khoản",
       html:
         "<p>Cảm ơn đã đăng kí tài khoản của Bros shop. Mã kích hoạt của bạn là:</p>" +
         verification_token,
-    };
-    transporter.sendMail(mainOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Sent:" + info.response);
-      }
-    });
+    });   
+    console.log(JSON.stringify(result, null, 4)); 
     user.verify_token = verification_token;
     user.save();
   });
@@ -154,7 +146,6 @@ exports.getForgotPass = (req, res, next) => {
 
 exports.postForgotPass = async(req, res, next) => {
   const email = req.body.email;
-  let testAccount = await nodemailer.createTestAccount();
   Users.findOne({ email: email }, (err, user) => {
     if (!user) {
       req.flash("error", "Email không hợp lệ");
@@ -163,8 +154,8 @@ exports.postForgotPass = async(req, res, next) => {
       var transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
-          user: testAccount.user,
-          pass: testAccount.pass,
+          user: process.env.USERMAIL,
+          pass: process.env.PASSMAIL,
         },
       });
       var tpass = randomstring.generate({
@@ -173,7 +164,7 @@ exports.postForgotPass = async(req, res, next) => {
       var mainOptions = {
         from: "Crepp so gud",
         to: email,
-        subject: "Test",
+        subject: "Mật khẩu mới",
         text: "text ne",
         html: "<p>Mật khẩu mới của bạn là:</p>" + tpass,
       };

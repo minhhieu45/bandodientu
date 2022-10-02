@@ -62,14 +62,6 @@ const productSchema = new Schema({
       type: Date
     }
   },
-  ofSellers: {
-    userId: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "User"
-    },
-    name: String
-  },
   labels: {
     type: String,
     required: false,
@@ -128,19 +120,6 @@ const productSchema = new Schema({
   }
 });
 
-const index = {
-  name: "text",
-  description: "text",
-  labels: "text",
-  "productType.main": "text",
-  tags: "text",
-  ofSellers: "text"
-};
-productSchema.index(index);
-
-productSchema.methods.getNonAccentType = function() {
-  return removeAccent(this.productType.main);
-};
 
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;

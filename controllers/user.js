@@ -48,3 +48,8 @@ exports.postAccountChange = (req, res, next) => {
   req.user.save();
   res.redirect("/account");
 };
+
+exports.getAllAcount = async (req, res) =>{
+  var data = await Users.find();
+  res.json(data);
+}

@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+var nodemailer = require('nodemailer');
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -15,17 +15,34 @@ const app = express();
 const MongoDBStore = require('connect-mongodb-session')(session);
 const Cart = require('./models/cart');
 const Product = require('./models/product');
+const Label = require('./models/label');
+const Order = require('./models/order');
+const ProductCategory = require('./models/productCategory');
+const User = require('./models/user');
 const compression = require('compression');
+const { log } = require('console');
 app.use(compression());
-mongoose.set('useCreateIndex', true);
 
 const urlConnect = process.env.DB;
 
+/**
+  *Fake data
+  const fakeUser = require("./seeds/fakeUser");
+  const fakeProduct = require("./seeds/fakeProduct");
+  const fakeCategory = require("./seeds/fakeCategory");
+  const fakeComment = require("./seeds/fakeComment");
+  const fakeLabel = require("./seeds/fakeLabel");
+  
+  
+  */
 // Connect to database
-mongoose.connect(urlConnect, { useNewUrlParser: true, useUnifiedTopology: true }, err => {
-  if (err) throw err;
-  console.log('Connect successfullyy!!');
-});
+try {
+  mongoose.connect(urlConnect);
+  console.log('Kết nối Database thành công!!');
+} catch (error) {
+  console.log(error);
+}
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
