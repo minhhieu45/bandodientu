@@ -29396,7 +29396,7 @@ html:not(.mac):not(.touch-device) .tt-carousel-brands .slick-track {
 }
 
 .containerStar {
-  //background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/concrete-texture.png");
+  background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/concrete-texture.png");
   display: flex;
   flex-wrap: wrap;
   height: 35vh;

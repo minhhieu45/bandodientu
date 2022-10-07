@@ -8,7 +8,7 @@
     <header>
       <% include partials/header %>
     </header>
-    <div class="tt-breadcrumb">
+    <div style="font-family: Georgia, 'Times New Roman', Times, serif;" class="tt-breadcrumb">
       <div class="container">
         <ul>
           <li><a href="/">Trang chủ</a></li>
@@ -80,7 +80,7 @@
                       <td><%= user.firstName %> <%= user.lastName %></td>
                     </tr>
                     <tr>
-                      <td>E-MAIL:</td>
+                      <td>E-Mail:</td>
                       <td><%= user.email %></td>
                     </tr>
                     <tr>
@@ -101,6 +101,7 @@
                 >Thay đổi thông tin</a
               >
             </div>
+          </br>
             <a href="/change-password" class="btn btn-border">Đổi mật khẩu</a>
           </div>
         </div>
